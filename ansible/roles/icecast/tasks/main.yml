@@ -1,0 +1,10 @@
+- name: Install Icecast
+  apt:
+    name: icecast2
+    state: present
+
+- name: Ensure Icecast is running
+  service:
+    name: icecast2
+    state: started
+    enabled: yes
