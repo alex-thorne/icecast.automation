@@ -17,13 +17,3 @@ resource "digitalocean_droplet" "nginx" {
   ssh_keys = var.droplet_ssh_keys
   count    = var.provider == "digitalocean" ? 1 : 0
 }
-
-output "icecast_ip" {
-  value = digitalocean_droplet.icecast[0].ipv4_address
-  count = var.provider == "digitalocean" ? 1 : 0
-}
-
-output "nginx_ip" {
-  value = digitalocean_droplet.nginx[0].ipv4_address
-  count = var.provider == "digitalocean" ? 1 : 0
-}
