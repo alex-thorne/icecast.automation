@@ -1,0 +1,7 @@
+---
+icecast_source_password: "ENTER_YOUR_PASSWORD"
+icecast_relay_password: "ENTER_YOUR_PASSWORD"
+icecast_admin_password: "ENTER_YOUR_PASSWORD"
+icecast_admin_user: "admin"
+icecast_admin_email: "admin@example.com"
+icecast_hostname: "localhost"

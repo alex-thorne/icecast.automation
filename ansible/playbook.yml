@@ -1,4 +1,5 @@
 - hosts: icecast
+  become: yes
   roles:
     - icecast
 
