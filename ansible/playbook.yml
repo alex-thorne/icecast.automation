@@ -1,0 +1,8 @@
+- hosts: icecast
+  become: yes
+  roles:
+    - icecast
+
+- hosts: nginx
+  roles:
+    - nginx
