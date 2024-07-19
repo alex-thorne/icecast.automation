@@ -1,6 +1,6 @@
 resource "digitalocean_droplet" "www-1" {
   image = "ubuntu-20-04-x64"
-  name = "www-1"
+  name = "nginx"
   region = "nyc3"
   size = "s-1vcpu-1gb"
   ssh_keys = [
@@ -15,12 +15,4 @@ resource "digitalocean_droplet" "www-1" {
     timeout = "2m"
   }
   
-  provisioner "remote-exec" {
-    inline = [
-      "export PATH=$PATH:/usr/bin",
-      # install nginx
-      "sudo apt update",
-      "sudo apt install -y nginx"
-    ]
-  }
 }

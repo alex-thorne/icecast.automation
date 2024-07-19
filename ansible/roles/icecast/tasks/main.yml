@@ -1,10 +1,26 @@
-- name: Install Icecast
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install Icecast2
   apt:
     name: icecast2
     state: present
 
-- name: Ensure Icecast is running
-  service:
+- name: Configure Icecast2
+  template:
+    src: icecast.xml.j2
+    dest: /etc/icecast2/icecast.xml
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Icecast
+
+- name: Enable and start Icecast2
+  systemd:
     name: icecast2
-    state: started
     enabled: yes
+    state: started
