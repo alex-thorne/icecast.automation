@@ -9,15 +9,28 @@
     name: icecast2
     state: present
 
+- name: Ensure icecast group exists
+  group:
+    name: "{{ icecast_group }}"
+    state: present
+
+- name: Ensure icecast user exists
+  user:
+    name: "{{ icecast_user }}"
+    group: "{{ icecast_group }}"
+    system: yes
+    shell: /usr/sbin/nologin
+    create_home: no
+
 - name: Configure Icecast2
   template:
     src: icecast.xml.j2
-    dest: /etc/icecast2/icecast.xml
-    owner: root
-    group: root
+    dest: "{{ icecast_config_file }}"
+    owner: "{{ icecast_user }}"
+    group: "{{ icecast_group }}"
     mode: '0644'
   notify:
-    - Restart Icecast
+    - reload Icecast
 
 - name: Enable and start Icecast2
   systemd:

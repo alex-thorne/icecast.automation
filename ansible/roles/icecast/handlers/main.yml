@@ -1,5 +1,5 @@
 ---
-- name: Restart Icecast
+- name: reload Icecast
   systemd:
     name: icecast2
     state: restarted

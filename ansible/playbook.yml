@@ -4,5 +4,6 @@
     - icecast
 
 - hosts: nginx
+  become: yes
   roles:
     - nginx
