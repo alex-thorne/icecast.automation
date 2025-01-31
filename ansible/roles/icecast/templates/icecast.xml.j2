@@ -25,13 +25,11 @@
 {% for listen_socket in icecast_listen_sockets %}
   <listen-socket>
   {% for key, value in listen_socket.items() %}
-    {# check for valid values rather that use multiple if statements #}
     {% if key in ['port', 'bind-address', 'ssl', 'shoutcast-mount', 'shoutcast-compat'] %}
     <{{ key }}>{{ value }}</{{ key }}>
     {% endif %}
   {% endfor %}
   </listen-socket>
-
 {% endfor %}
 
 {% if icecast_http_headers is defined %}
@@ -40,15 +38,12 @@
     <header name="{{ http_header['name'] }}" value="{{ http_header['value'] }}"{% if http_header['status'] is defined %} status="{{ http_header['status'] }}" {% endif %} />
   {% endfor %}
   </http-headers>
-
 {% endif %}
 
-{# icecast mounts #}
 {% if icecast_mounts is defined %}
   {% for mount in icecast_mounts %}
   <mount type="{{ mount['type'] | default('normal') }}">
     {% for key, value in mount.items() %}
-      {# check for valid values rather that use multiple if statements #}
       {% if key in ['mount-name', 'username', 'password', 'max-listeners', 'dump-file', 'intro',
         'fallback-mount', 'fallback-override', 'fallback-when-full', 'charset', 
         'public', 'stream-name', 'stream-description', 'stream-url', 'genre', 
@@ -59,7 +54,6 @@
       {% endif %}
     {% endfor %}
   </mount>
-
   {% endfor %}
 {% endif %}
 

@@ -1,5 +1,5 @@
 [icecast]
-<icecast_ip_address> ansible_user=root
+159.89.41.9 ansible_user=root
 
 [nginx]
-<nginx_ip_address> ansible_user=root
+159.89.37.86 ansible_user=root

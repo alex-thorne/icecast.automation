@@ -1,7 +1,7 @@
 server {
     listen 80;
 
-    server_name _;
+    server_name {{ hostvars['nginx'].ansible_host }};
 
     location / {
         proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000;
