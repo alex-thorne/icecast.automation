@@ -1,4 +1,10 @@
+data "digitalocean_droplet" "existing_droplet" {
+  name = "icecast-server"
+  most_recent = true
+}
+
 resource "digitalocean_droplet" "icecast_server" {
+    count = length(data.digitalocean_droplet.existing_droplet.id) == 0 ? 1 : 0
     image     = "ubuntu-20-04-x64"
     name      = "icecast-server"
     region    = "nyc3"
