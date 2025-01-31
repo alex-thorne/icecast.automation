@@ -37,3 +37,9 @@
     name: icecast2
     enabled: yes
     state: started
+
+- name: Open port 8000 for Icecast traffic
+  ansible.builtin.ufw:
+    rule: allow
+    port: 8000
+    proto: tcp
