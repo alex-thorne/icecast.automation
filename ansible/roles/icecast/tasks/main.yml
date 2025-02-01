@@ -22,6 +22,14 @@
     shell: /usr/sbin/nologin
     create_home: no
 
+#- name: Create Icecast2 log directory
+#  file:
+#    path: /var/log/icecast2
+#    state: directory
+#    owner: "{{ icecast_user }}"
+#    group: "{{ icecast_group }}"
+#    mode: '0755'
+
 - name: Configure Icecast2
   template:
     src: icecast.xml.j2
@@ -38,8 +46,27 @@
     enabled: yes
     state: started
 
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+
+- name: Enable UFW
+  ansible.builtin.ufw:
+    state: enabled
+
 - name: Open port 8000 for Icecast traffic
   ansible.builtin.ufw:
     rule: allow
     port: 8000
     proto: tcp
+
+- name: Open port 22 for SSH traffic
+  ansible.builtin.ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Reload UFW
+  ansible.builtin.ufw:
+    state: reloaded
