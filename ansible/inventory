@@ -1,5 +1,0 @@
-[icecast]
-159.89.41.9 ansible_user=root
-
-[nginx]
-159.89.37.86 ansible_user=root

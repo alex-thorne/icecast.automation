@@ -1,4 +1,4 @@
-resource "digitalocean_droplet" "www-1" {
+resource "digitalocean_droplet" "nginx" {
   image = "ubuntu-20-04-x64"
   name = "nginx"
   region = "nyc3"
@@ -14,5 +14,5 @@ resource "digitalocean_droplet" "www-1" {
     private_key = file(var.pvt_key)
     timeout = "2m"
   }
-  
+ 
 }
