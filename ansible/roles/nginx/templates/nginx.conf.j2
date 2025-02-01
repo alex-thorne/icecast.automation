@@ -1,9 +1,14 @@
 server {
     listen 80;
 
-    server_name _;
+    server_name {{ hostvars['nginx'].ansible_host }};
 
     location / {
+        root /var/www/html;
+        index index.html;
+    }
+
+    location /stream {
         proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

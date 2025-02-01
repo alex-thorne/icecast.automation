@@ -13,3 +13,12 @@
     name: nginx
     state: started
     enabled: yes
+
+- name: All all Nginx traffic thorugh UFW
+  ufw:
+    rule: allow
+    name: 'Nginx Full'
+
+- name: Reload UFW
+  ufw:
+    state: reloaded

@@ -1,6 +1,6 @@
-resource "digitalocean_droplet" "icecast_server" {
+resource "digitalocean_droplet" "icecast" {
     image     = "ubuntu-20-04-x64"
-    name      = "icecast-server"
+    name      = "icecast"
     region    = "nyc3"
     size      = "s-1vcpu-1gb"
     ssh_keys = [
