@@ -50,6 +50,20 @@ IaC for deploying [Icecast](https://icecast.org/)
     ansible-playbook playbook.yml --check
     ```
 
+4. Connect. Note: no mountpoint will be available until you begin a broadcast stream on icecast once a stream is active, connect in browser via: http://<nginxip>:8000/live
+
+## Troubleshooting:
+
+- check that icecast is running via: http://<icecastip>:8000/status.xsl
+- check if you can hit the icecast server from the nginx server via `curl http://<icecastip>:8000`
+- check icecast error logs on icecast server via `sudo cat /var/log/icecast2/error.log`
+- check that icecast is listening  for traffic via `root@icecast:~# ss -tulnp | grep icecast`. Output should be:
+    ``` bash
+    tcp     LISTEN   0        5                0.0.0.0:8000          0.0.0.0:*       users:(("icecast2",pid=2934,fd=4)) 
+    ```
+
+
+
 ### Notes:
 
 If deploy any later changes via ansible, remember to run terraform apply before running the Ansible playbook to ensure the inventory file is up to date with the latest IP addresses.
