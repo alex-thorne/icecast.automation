@@ -3,5 +3,3 @@
   systemd:
     name: icecast2
     state: restarted
-#    register: result
-#    failed_when: "'active (running)' not in result.status"
