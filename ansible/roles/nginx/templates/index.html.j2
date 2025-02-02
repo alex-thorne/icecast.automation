@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to our Icecast Radio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        audio {
+            margin-top: 20px;
+        }
+        #status {
+            margin-top: 10px;
+            font-size: 16px;
+            color: red;
+        }
+    </style>
+    <script>
+        function checkStream() {
+            const audio = document.getElementById('audio-player');
+            const status = document.getElementById('status');
+            fetch(audio.src, { method: 'HEAD' })
+                .then(response => {
+                    if (!response.ok) {
+                        status.textContent = '(no current broadcast)';
+                    } else {
+                        status.textContent = '';
+                    }
+                })
+                .catch(() => {
+                    status.textContent = '(no current broadcast)';
+                });
+        }
+        window.onload = checkStream;
+    </script>
+</head>
+<body>
+    <h1>Welcome to our <strong>icecast-automation</strong> radio!</h1>
+    <p>Listen to the live stream below:</p>
+    <audio id="audio-player" controls>
+        <source src="http://{{ hostvars['nginx'].ansible_host }}:8000/live" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <p id="status"></p>
+</body>
+</html>

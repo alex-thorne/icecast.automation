@@ -3,7 +3,7 @@ server {
     server_name {{ hostvars['nginx'].ansible_host }};
 
     location /live {
-        proxy_pass {{ hostvars['icecast'].ansible_host }}:8000/live;
+        proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000/live;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
