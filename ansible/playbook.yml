@@ -1,9 +1,9 @@
 - hosts: icecast
   become: yes
   roles:
-    - icecast
+    - { role: icecast, tags: ['icecast'] }
 
-- hosts: nginx
+- hosts: nginx  
   become: yes
   roles:
-    - nginx
+    - { role: nginx, tags: ['nginx'] }

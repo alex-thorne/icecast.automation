@@ -1,14 +1,54 @@
 server {
     listen 80;
     server_name {{ hostvars['nginx'].ansible_host }};
+    
+    # Add CORS headers
+    add_header Access-Control-Allow-Origin "*";
+    add_header Access-Control-Allow-Methods "GET, OPTIONS";
+    add_header Access-Control-Allow-Headers "Origin, Authorization, Accept";
 
-    location /live {
-        proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000/live;
+    # Proxy settings for all locations
+    proxy_http_version 1.1;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Range $http_range;
+    proxy_set_header If-Range $http_if_range;
+    proxy_connect_timeout 300;
+    proxy_send_timeout 300;
+    proxy_read_timeout 300;
+    proxy_buffering off;
+    
+    # Status page location
+    location /status.xsl {
+        proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000/status.xsl;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Main stream location
+    location /live {
+        proxy_pass http://{{ hostvars['icecast'].ansible_host }}:8000/live;
+        add_header Cache-Control no-cache;
+        # Debug headers
+        add_header X-Debug-Target "{{ hostvars['icecast'].ansible_host }}:8000/live" always;
+        add_header X-Debug-Host $host always;
+        
+        # Important for streaming
         proxy_buffering off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        # Add debug headers
+        add_header X-Debug-Target "{{ hostvars['icecast'].ansible_host }}:8000/live";
+        add_header X-Debug-Host $host;
+        
+        # CORS headers
+        add_header Access-Control-Allow-Origin "*";
+        add_header Access-Control-Allow-Methods "GET, OPTIONS";
     }
 
     location / {

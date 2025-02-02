@@ -3,52 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to our Icecast Radio</title>
+    <title>Icecast Stream</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #333;
-        }
-        audio {
-            margin-top: 20px;
-        }
-        #status {
-            margin-top: 10px;
-            font-size: 16px;
-            color: red;
-        }
+        body { font-family: Arial; margin: 40px; }
+        .debug { background: #f0f0f0; padding: 10px; margin-top: 20px; }
+        .error { color: red; }
+        audio { display: block; margin: 20px 0; }
     </style>
-    <script>
-        function checkStream() {
-            const audio = document.getElementById('audio-player');
-            const status = document.getElementById('status');
-            fetch(audio.src, { method: 'HEAD' })
-                .then(response => {
-                    if (!response.ok) {
-                        status.textContent = '(no current broadcast)';
-                    } else {
-                        status.textContent = '';
-                    }
-                })
-                .catch(() => {
-                    status.textContent = '(no current broadcast)';
-                });
-        }
-        window.onload = checkStream;
-    </script>
 </head>
 <body>
-    <h1>Welcome to our <strong>icecast-automation</strong> radio!</h1>
-    <p>Listen to the live stream below:</p>
-    <audio id="audio-player" controls>
-        <source src="http://{{ hostvars['nginx'].ansible_host }}:8000/live" type="audio/mpeg">
+    <h1>Icecast Stream</h1>
+    
+    <audio id="player" controls>
+        <source src="http://{{ hostvars['nginx'].ansible_host }}/live" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <p id="status"></p>
+    
+    <div id="status"></div>
+    
+    <div class="debug">
+        <h3>Debug Info:</h3>
+        <p>Direct: <a href="http://{{ hostvars['icecast'].ansible_host }}:8000/live" target="_blank">http://{{ hostvars['icecast'].ansible_host }}:8000/live</a></p>
+        <p>Proxied: <a href="http://{{ hostvars['nginx'].ansible_host }}/live" target="_blank">http://{{ hostvars['nginx'].ansible_host }}/live</a></p>
+    </div>
+
+    <script>
+    function checkStream() {
+        const player = document.getElementById('player');
+        const status = document.getElementById('status');
+        
+        fetch('/live', {method: 'HEAD'})
+            .then(response => {
+                if (response.ok) {
+                    status.textContent = 'Stream available';
+                    status.className = '';
+                } else {
+                    status.textContent = 'No active stream';
+                    status.className = 'error';
+                }
+            })
+            .catch(error => {
+                status.textContent = 'Error checking stream: ' + error.message;
+                status.className = 'error';
+            });
+    }
+
+    window.onload = checkStream;
+    setInterval(checkStream, 30000); // Check every 30 seconds
+    </script>
 </body>
 </html>
