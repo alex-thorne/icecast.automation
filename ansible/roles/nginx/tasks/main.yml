@@ -7,6 +7,14 @@
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/sites-available/default
+  notify: reload nginx
+
+- name: Enable Nginx site
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: reload nginx
 
 - name: Replace default Nginx index.html
   template:
@@ -21,12 +29,3 @@
     name: nginx
     state: started
     enabled: yes
-
-- name: All all Nginx traffic thorugh UFW
-  ufw:
-    rule: allow
-    name: 'Nginx Full'
-
-- name: Reload UFW
-  ufw:
-    state: reloaded
