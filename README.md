@@ -14,7 +14,7 @@ Intended as a quick-start guide to support small internet-radio communities laun
 
     See [how-to docs](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2) for info. In the case of this project, the private key is stored at `~/.ssh/do_rsa` Make sure to either adjust that in the `/ansible/ansible.cfg` or save create your key in the same name and location.
 
-3. Your DigitalOcean API token as variable in your terminal session
+3. Your DigitalOcean API token as variable in your terminal session.
 
     ``` bash
     export DO_PAT="person access token here"
@@ -59,7 +59,14 @@ Intended as a quick-start guide to support small internet-radio communities laun
 
 4. Connect. Note: no mountpoint will be available until you begin a broadcast stream on icecast once a stream is active, connect in browser via: http://<nginxip>:8000/live
 
-5. Destroy. _Don't forget to tear down the droplets if you are just testing!_
+    If it's workign correctly you should see this:
+    ![Icecast Automation Landing Page](resources/img/icecast-automation.landingpage.png)
+
+5. Broadcast to Icecast stream, check stream output
+
+    TODO: _add basic steps using BUTT to connect to stream and check that stream is playing_
+
+6. Destroy. _Don't forget to tear down the droplets if you are just testing!_
 
     ``` bash
     terraform destroy \                                    
