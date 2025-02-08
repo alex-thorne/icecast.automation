@@ -10,7 +10,6 @@ ansible.retry
 
 #secrets
 .secrets/
-/ansible/roles/icecast/vars/main.yml
 
 #vscode
 *.code-workspace

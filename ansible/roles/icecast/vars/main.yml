@@ -1,0 +1,39 @@
+---
+## Icecast Authentication Variables
+icecast_location: Earth
+icecast_admin_email: icemaster@localhost
+icecast_hostname: localhost
+icecast_sources: 2
+icecast_source_password:
+icecast_relay_user: relay
+icecast_relay_password:
+icecast_admin_user: admin
+icecast_admin_password:
+
+icecast_http_headers:
+  - name: "Access-Control-Allow-Origin"
+    value: "*"
+icecast_mounts:
+  - mount-name: "/live"
+icecast_listen_sockets:
+  - port: 8000
+icecast_paths:
+  basedir: /usr/share/icecast2
+  logdir: /var/log/icecast2
+  webroot: /usr/share/icecast2/web
+  adminroot: /usr/share/icecast2/admin
+  alias:
+    source: "/"
+    destination: "/status.xsl"
+icecast_logging:
+  accesslog: access.log
+  errorlog: error.log
+  playlistlog: playlist.log
+  loglevel: 3  # 4 Debug, 3 Info, 2 Warn, 1 Error
+  logsize: 10000  # Max size of a logfile
+icecast_security:
+  chroot: 0
+  changeowner:
+    user: nobody
+    group: nogroup
+icecast_fileserve: 1
